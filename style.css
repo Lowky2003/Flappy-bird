@@ -1,0 +1,81 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.game-container {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+h1 {
+    color: #fff;
+    font-size: 3em;
+    margin-bottom: 20px;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px;
+}
+
+#gameCanvas {
+    border: 4px solid #fff;
+    border-radius: 10px;
+    background: #70c5ce;
+    display: block;
+    margin: 0 auto;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.instructions {
+    margin-top: 20px;
+    color: #fff;
+    font-size: 1.1em;
+}
+
+.instructions p {
+    margin: 10px 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.score-display {
+    margin-top: 15px;
+    color: #fff;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+#highScore {
+    color: #ffd700;
+    font-size: 1.3em;
+}
+
+@media (max-width: 500px) {
+    h1 {
+        font-size: 2em;
+    }
+
+    .game-container {
+        padding: 15px;
+    }
+
+    #gameCanvas {
+        width: 100%;
+        height: auto;
+    }
+}
