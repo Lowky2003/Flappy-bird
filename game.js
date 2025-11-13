@@ -262,6 +262,11 @@ function drawScore() {
 function gameOver() {
     if (gameState === 'gameOver') return;
     gameState = 'gameOver';
+
+    // Save score to Firebase if user is logged in
+    if (window.saveScore && score > 0) {
+        window.saveScore(score);
+    }
 }
 
 // Reset game
