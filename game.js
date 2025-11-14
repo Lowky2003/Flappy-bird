@@ -252,8 +252,8 @@ function drawScore() {
         ctx.fillText('Game Over!', canvas.width / 2, canvas.height / 2 - 50);
 
         ctx.font = 'bold 30px Arial';
-        ctx.strokeText('Press R to Restart', canvas.width / 2, canvas.height / 2 + 20);
-        ctx.fillText('Press R to Restart', canvas.width / 2, canvas.height / 2 + 20);
+        ctx.strokeText('Tap to Restart', canvas.width / 2, canvas.height / 2 + 20);
+        ctx.fillText('Tap to Restart', canvas.width / 2, canvas.height / 2 + 20);
 
         ctx.font = 'bold 25px Arial';
         ctx.fillStyle = '#FFD700';
@@ -330,13 +330,21 @@ function gameLoop() {
 
 // Event listeners
 canvas.addEventListener('click', () => {
-    bird.flap();
+    if (gameState === 'gameOver') {
+        resetGame();
+    } else {
+        bird.flap();
+    }
 });
 
 document.addEventListener('keydown', (e) => {
     if (e.code === 'Space') {
         e.preventDefault();
-        bird.flap();
+        if (gameState === 'gameOver') {
+            resetGame();
+        } else {
+            bird.flap();
+        }
     }
 
     if (e.code === 'KeyR' && gameState === 'gameOver') {
