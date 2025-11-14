@@ -1,3 +1,6 @@
+// Import Firebase service
+import { FirebaseService } from './firebase-init.js';
+
 // Canvas setup
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
@@ -7,6 +10,7 @@ let frames = 0;
 let score = 0;
 let highScore = localStorage.getItem('flappyHighScore') || 0;
 let gameState = 'start'; // start, playing, gameOver
+let playerName = localStorage.getItem('flappyPlayerName') || null;
 
 // Bird object
 const bird = {
@@ -259,9 +263,46 @@ function drawScore() {
 }
 
 // Game over
-function gameOver() {
+async function gameOver() {
     if (gameState === 'gameOver') return;
     gameState = 'gameOver';
+
+    // Submit score to Firebase if user is logged in or if it's a new high score
+    if (score > 0) {
+        const user = FirebaseService.getCurrentUser();
+        if (user) {
+            // User is logged in, submit score automatically
+            submitScoreToFirebase();
+        } else if (score >= highScore) {
+            // Not logged in, ask for player name if new high score
+            if (!playerName) {
+                setTimeout(() => {
+                    const name = prompt('New high score! Enter your name for the leaderboard:', 'Player');
+                    if (name && name.trim()) {
+                        playerName = name.trim();
+                        localStorage.setItem('flappyPlayerName', playerName);
+                    }
+                    submitScoreToFirebase();
+                }, 1000);
+            } else {
+                submitScoreToFirebase();
+            }
+        }
+    }
+}
+
+// Submit score to Firebase
+async function submitScoreToFirebase() {
+    try {
+        const user = FirebaseService.getCurrentUser();
+        const displayName = user ? (user.displayName || user.email) : (playerName || 'Anonymous');
+        await FirebaseService.addScore(displayName, score);
+        // Update leaderboard display
+        await FirebaseService.updateLeaderboardDisplay();
+        await FirebaseService.updateGlobalHighScoreDisplay();
+    } catch (error) {
+        console.error('Failed to submit score:', error);
+    }
 }
 
 // Reset game

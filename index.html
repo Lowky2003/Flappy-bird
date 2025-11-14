@@ -7,7 +7,53 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="game-container">
+    <!-- Authentication Container -->
+    <div id="authContainer" class="auth-container">
+        <div class="auth-box">
+            <h1>Frappe Bird</h1>
+            <p class="auth-subtitle">Login or Register to Play</p>
+
+            <!-- Login Form -->
+            <div id="loginForm" class="auth-form">
+                <h2>Login</h2>
+                <input type="email" id="loginEmail" placeholder="Email" required>
+                <input type="password" id="loginPassword" placeholder="Password" required>
+                <div id="loginError" class="error-message"></div>
+                <button id="loginBtn" class="btn btn-primary">Login</button>
+                <p class="toggle-form">Don't have an account? <a href="#" id="showRegister">Register</a></p>
+                <p class="toggle-form"><a href="#" id="showForgotPassword">Forgot Password?</a></p>
+            </div>
+
+            <!-- Register Form -->
+            <div id="registerForm" class="auth-form hidden">
+                <h2>Register</h2>
+                <input type="text" id="registerName" placeholder="Display Name" required>
+                <input type="email" id="registerEmail" placeholder="Email" required>
+                <input type="password" id="registerPassword" placeholder="Password (min 6 characters)" required>
+                <div id="registerError" class="error-message"></div>
+                <button id="registerBtn" class="btn btn-primary">Register</button>
+                <p class="toggle-form">Already have an account? <a href="#" id="showLogin">Login</a></p>
+            </div>
+
+            <!-- Forgot Password Form -->
+            <div id="forgotPasswordForm" class="auth-form hidden">
+                <h2>Reset Password</h2>
+                <p style="color: #fff; font-size: 0.95em; margin-bottom: 15px;">Enter your email to receive a password reset link</p>
+                <input type="email" id="resetEmail" placeholder="Email" required>
+                <div id="resetError" class="error-message"></div>
+                <div id="resetSuccess" class="success-message"></div>
+                <button id="resetBtn" class="btn btn-primary">Send Reset Link</button>
+                <p class="toggle-form"><a href="#" id="backToLogin">Back to Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Container -->
+    <div id="gameContainer" class="game-container hidden">
+        <div class="user-header">
+            <span id="userInfo"></span>
+            <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+        </div>
         <h1>Frappe Bird</h1>
         <canvas id="gameCanvas" width="400" height="600"></canvas>
         <div class="instructions">
@@ -16,8 +62,17 @@
         </div>
         <div class="score-display">
             <p>High Score: <span id="highScore">0</span></p>
+            <p>Global Best: <span id="globalHighScore">-</span></p>
+        </div>
+        <div class="leaderboard">
+            <h2>Top 10</h2>
+            <ol id="leaderboardList">
+                <li>Loading...</li>
+            </ol>
         </div>
     </div>
-    <script src="game.js"></script>
+
+    <script type="module" src="game.js"></script>
+    <script type="module" src="auth.js"></script>
 </body>
 </html>
