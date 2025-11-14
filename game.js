@@ -149,7 +149,7 @@ const pipes = {
         if (gameState !== 'playing') return;
 
         // Add new pipe
-        if (frames % 90 === 0) {
+        if (frames % 120 === 0) {
             const topHeight = Math.floor(Math.random() * (this.maxHeight - this.minHeight)) + this.minHeight;
             this.array.push({
                 x: canvas.width,
