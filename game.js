@@ -248,17 +248,13 @@ function drawScore() {
 
     if (gameState === 'gameOver') {
         ctx.font = 'bold 50px Arial';
-        ctx.strokeText('Game Over!', canvas.width / 2, canvas.height / 2 - 50);
-        ctx.fillText('Game Over!', canvas.width / 2, canvas.height / 2 - 50);
-
-        ctx.font = 'bold 30px Arial';
-        ctx.strokeText('Tap to Restart', canvas.width / 2, canvas.height / 2 + 20);
-        ctx.fillText('Tap to Restart', canvas.width / 2, canvas.height / 2 + 20);
+        ctx.strokeText('Game Over!', canvas.width / 2, canvas.height / 2 - 30);
+        ctx.fillText('Game Over!', canvas.width / 2, canvas.height / 2 - 30);
 
         ctx.font = 'bold 25px Arial';
         ctx.fillStyle = '#FFD700';
-        ctx.strokeText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 + 70);
-        ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 + 70);
+        ctx.strokeText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 + 30);
+        ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 + 30);
     }
 }
 
@@ -266,6 +262,9 @@ function drawScore() {
 async function gameOver() {
     if (gameState === 'gameOver') return;
     gameState = 'gameOver';
+
+    // Show restart button
+    document.getElementById('restartBtn').classList.remove('hidden');
 
     // Submit score to Firebase if user is logged in or if it's a new high score
     if (score > 0) {
@@ -312,6 +311,8 @@ function resetGame() {
     gameState = 'start';
     bird.reset();
     pipes.reset();
+    // Hide restart button
+    document.getElementById('restartBtn').classList.add('hidden');
 }
 
 // Main game loop
@@ -330,26 +331,21 @@ function gameLoop() {
 
 // Event listeners
 canvas.addEventListener('click', () => {
-    if (gameState === 'gameOver') {
-        resetGame();
-    } else {
+    if (gameState !== 'gameOver') {
         bird.flap();
     }
 });
 
 document.addEventListener('keydown', (e) => {
-    if (e.code === 'Space') {
+    if (e.code === 'Space' && gameState !== 'gameOver') {
         e.preventDefault();
-        if (gameState === 'gameOver') {
-            resetGame();
-        } else {
-            bird.flap();
-        }
+        bird.flap();
     }
+});
 
-    if (e.code === 'KeyR' && gameState === 'gameOver') {
-        resetGame();
-    }
+// Restart button handler
+document.getElementById('restartBtn').addEventListener('click', () => {
+    resetGame();
 });
 
 // Initialize
